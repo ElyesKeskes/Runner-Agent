@@ -2,49 +2,22 @@
     "RunnerV1": {
         "checkpoints": [
             {
-                "steps": 5920,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-5920.onnx",
+                "steps": 16136,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-16136.onnx",
                 "reward": null,
-                "creation_time": 1726849495.2207012,
+                "creation_time": 1726870547.6674104,
                 "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-5920.pt"
-                ]
-            },
-            {
-                "steps": 7456,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-7456.onnx",
-                "reward": null,
-                "creation_time": 1726851405.6287603,
-                "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-7456.pt"
-                ]
-            },
-            {
-                "steps": 14272,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-14272.onnx",
-                "reward": null,
-                "creation_time": 1726851986.9833999,
-                "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-14272.pt"
-                ]
-            },
-            {
-                "steps": 16384,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-16384.onnx",
-                "reward": null,
-                "creation_time": 1726852637.596275,
-                "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-16384.pt"
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-16136.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 16384,
+            "steps": 16136,
             "file_path": "results\\RunnerV1\\RunnerV1.onnx",
             "reward": null,
-            "creation_time": 1726852637.596275,
+            "creation_time": 1726870547.6674104,
             "auxillary_file_paths": [
-                "results\\RunnerV1\\RunnerV1\\RunnerV1-16384.pt"
+                "results\\RunnerV1\\RunnerV1\\RunnerV1-16136.pt"
             ]
         }
     },

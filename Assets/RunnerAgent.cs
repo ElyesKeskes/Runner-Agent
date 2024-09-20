@@ -4,6 +4,10 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+using System;
+using Unity.VisualScripting;
+using Unity.MLAgents.Policies;
+
 
 public class RunnerAgent : Agent
 {
@@ -11,10 +15,12 @@ public class RunnerAgent : Agent
     public List<float> obstacleLocalZPositions;
     public List<Transform> obstacleTransforms;
     public List<Transform> rewardTransforms;
-    public float distanceToGoal; //Must be observed
+    public float distanceToGoal;
     public float distanceToNextObstacle;//Must be observed
     public float distanceToNextReward;//Must be observed
-    public float nextRewardXPosition;
+    public float nextRewardXPosition; //Must be observed
+    public GameObject nextReward;
+    public GameObject nextObstacle;
     [SerializeField] public Transform agentStartLocalPosition;
     Rigidbody rb;
     [SerializeField] public float jumpForce;
@@ -27,16 +33,36 @@ public class RunnerAgent : Agent
     [SerializeField] public float minDistanceBetweenRewards;
     [SerializeField] public float minDistanceBetweenRewardsAndObstacles;
     [SerializeField] public Material groundMaterial;
+    public Material groundMaterialCopy;
+    public bool isGrounded = true; //Must be observed
+    public Action episodeFailed;
+    public bool noObstacles = false;
+    public bool noRewards = false;
+    public MeshRenderer groundMeshRenderer;
 
     void Start()
     {
-        Debug.Log("Agent Start");
+        episodeFailed += OnFail;
     }
     void Update()
     {
-        Debug.Log("Agent Update");
         //Always move forward
         transform.Translate(0, 0, forwardSpeed * Time.deltaTime);
+    }
+
+    void OnFail()
+    {
+        //Set base color of the ground material to red
+        groundMaterialCopy.color = Color.red;
+        //Add reward 1 x ratio of distance to goal
+        if(distanceToGoal > 0.3f * pathLength)
+        {
+            AddReward(-0.1f * (distanceToGoal / pathLength));
+        }
+        else
+        {
+            AddReward(-1);
+        }
     }
 
     void ResetRewards()
@@ -49,7 +75,9 @@ public class RunnerAgent : Agent
 
     public override void Initialize()
     {
-
+        //Create a copy of the mat and set it
+        groundMaterialCopy = new Material(groundMaterial);
+        groundMeshRenderer.material = groundMaterialCopy;
         rb = GetComponent<Rigidbody>();
         goalLocalZPosition = GameObject.FindGameObjectWithTag("Goal").transform.localPosition.z;
         obstacleLocalZPositions = new List<float>();
@@ -70,12 +98,25 @@ public class RunnerAgent : Agent
         {
             rewardTransforms.Add(reward.transform);
         }
+        if (obstacleTransforms.Count == 0)
+        {
+            noObstacles = true;
+        }
+        else
+        {
+            noObstacles = false;
+        }
+        if (rewardTransforms.Count == 0)
+        {
+            noRewards = true;
+        }
+        else
+        {
+            noRewards = false;
+        }
         GetDistanceToNextObstacle();
         GetDistanceToNextReward();
         GetDistanceToGoal();
-
-
-        Debug.Log("<color=green>Agent Initialized!</color>");
     }
 
     public void GeneratePath()
@@ -86,35 +127,70 @@ public class RunnerAgent : Agent
 
     void GetDistanceToNextObstacle() //Must be in front of the agent on the Z axis
     {
+        bool found = false;
+        if (noObstacles)
+        {
+            distanceToNextObstacle = 1000f;
+            return;
+        }
         float minDistance = Mathf.Infinity;
         for (int i = 0; i < obstacleTransforms.Count; i++)
         {
-            float distance = Vector3.Distance(transform.localPosition, obstacleTransforms[i].localPosition);
-            if (distance < minDistance)
+            if (transform.position.z < obstacleTransforms[i].position.z) //If the obstacle is in front of the agent
             {
-                minDistance = distance;
+                found = true;
+                float distance = Vector3.Distance(new Vector3(0, 0, transform.localPosition.z), new Vector3(0, 0, obstacleTransforms[i].localPosition.z));
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    nextObstacle = obstacleTransforms[i].gameObject;
+                }
             }
+        }
+        if (!found)
+        {
+            distanceToNextObstacle = 1000f;
+            nextObstacle = null;
+            return;
         }
         distanceToNextObstacle = minDistance;
     }
 
     void GetDistanceToNextReward()
-    {
+    {   bool found = false;
+        if (noRewards)
+        {
+            distanceToNextReward = distanceToGoal;
+            nextRewardXPosition = 0f;
+            return;
+        }
         float minDistance = Mathf.Infinity;
         for (int i = 0; i < rewardTransforms.Count; i++)
         {
-            float distance = Vector3.Distance(transform.localPosition, rewardTransforms[i].localPosition);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
+            if (transform.position.z < rewardTransforms[i].position.z) //If the reward is in front of the agent
+            {   found = true;
+                float distance = Vector3.Distance(new Vector3(transform.localPosition.x, 0, transform.localPosition.z), new Vector3(rewardTransforms[i].localPosition.x, 0, rewardTransforms[i].localPosition.z));
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    nextReward = rewardTransforms[i].gameObject;
+                }
             }
         }
+        if (!found)
+        {
+            distanceToNextReward = distanceToGoal;
+            nextRewardXPosition = 0f;
+            nextReward = null;
+            return;
+        }
         distanceToNextReward = minDistance;
+        nextRewardXPosition = nextReward.transform.localPosition.x;
     }
 
     void GetDistanceToGoal()
     {
-        distanceToGoal = Vector3.Distance(transform.localPosition, new Vector3(0, 0, goalLocalZPosition));
+        distanceToGoal = Vector3.Distance(new Vector3(0, 0, transform.localPosition.z), new Vector3(0, 0, goalLocalZPosition));
     }
 
     void RandomizeObstacleZPositions()
@@ -133,7 +209,7 @@ public class RunnerAgent : Agent
             while (!positionValid)
             {
                 // Randomize the Z position within the specified range
-                newZ = Random.Range(minZPosition, maxZPosition);
+                newZ = UnityEngine.Random.Range(minZPosition, maxZPosition);
 
                 // Check if the new position is valid
                 positionValid = true;
@@ -172,8 +248,8 @@ public class RunnerAgent : Agent
             while (!isValidPosition)
             {
                 // Randomize X and Z positions for the reward
-                float randomX = Random.Range(-halfPathWidth, halfPathWidth);
-                float randomZ = Random.Range(minZPosition, maxZPosition);
+                float randomX = UnityEngine.Random.Range(-halfPathWidth, halfPathWidth);
+                float randomZ = UnityEngine.Random.Range(minZPosition, maxZPosition);
 
                 // Check distance constraints
                 isValidPosition = true;
@@ -219,39 +295,48 @@ public class RunnerAgent : Agent
         GetDistanceToNextObstacle();
         GetDistanceToNextReward();
         GetDistanceToGoal();
-        
+        IsGrounded();
+
         sensor.AddObservation(distanceToNextObstacle);
         sensor.AddObservation(distanceToNextReward);
-        sensor.AddObservation(nextRewardXPosition);
-        sensor.AddObservation(transform.localPosition.x);
+        sensor.AddObservation(nextRewardXPosition/pathWidth);
+        sensor.AddObservation(transform.localPosition.x/pathWidth);
+        sensor.AddObservation(distanceToGoal/pathLength);
+        sensor.AddObservation(isGrounded);
+    }
 
-        Debug.Log($"Distance to Obstacle: {distanceToNextObstacle}, Distance to Reward: {distanceToNextReward}");
-
+    void Jump()
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        //Debug log in pink color AGENT JUMPED
+        Debug.Log("<color=pink>AGENT JUMPED</color>");
     }
     //Agent Actions: Since it's always running forward without any action, it only moves on the x-axis and jumps (Add force on the y-axis)
     public override void OnActionReceived(ActionBuffers actions)
     {
         //One continuous action for x-axis movement
         //Two descrete branches: One for movement on x axis and one for jumping: First branch size is 3 (don't move sideways, move left, move right) and second branch size is 2 (jump, don't jump)
-        var moveX = 2f * Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
+        //var moveX = 2f * Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
+        var moveX = actions.ContinuousActions[0];
         int jump = actions.DiscreteActions[0];
         //Movement
         transform.Translate(moveX * strafeSpeed * Time.deltaTime, 0, 0);
 
         //Jump
-        if (jump == 1 && IsGrounded())
+        if (jump == 1 && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Jump();
+        }
+        if (jump == 1 && !isGrounded)
+        {
+            //Shouldn't be able to jump in the air
             AddReward(-0.1f);
         }
-        
-        //Debug log
-        Debug.Log($"MoveX: {moveX}, Jump: {jump}");
     }
 
-    bool IsGrounded()
+    void IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, 0.6f);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 0.6f);
     }
 
     public override void OnEpisodeBegin()
@@ -262,7 +347,6 @@ public class RunnerAgent : Agent
         GetDistanceToNextReward();
         GetDistanceToGoal();
         Debug.Log("<color=yellow>Episode Begin</color>");
-        groundMaterial.color = Color.black;
         transform.localPosition = agentStartLocalPosition.localPosition;
 
     }
@@ -272,34 +356,35 @@ public class RunnerAgent : Agent
         var continuousActionsOut = actionsOut.ContinuousActions;
         continuousActionsOut[0] = Input.GetAxis("Horizontal");
         var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = Input.GetKey(KeyCode.Space) ? 1 : 0;
+        discreteActionsOut[0] = (Input.GetKey(KeyCode.Space) && isGrounded) ? 1 : 0;
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Goal")) //Goal at the end of the path
         {
-            AddReward(500);
+            AddReward(5);
             //Set base color of the ground material to green
-            groundMaterial.color = Color.green;
+            groundMaterialCopy.color = Color.green;
             EndEpisode();
         }
         if (other.gameObject.CompareTag("Wall")) //Walls on the sides of the path
         {
             AddReward(-1);
+            episodeFailed.Invoke();
+            EndEpisode();
 
         }
         //Obstacle and Reward (coin)
         if (other.gameObject.CompareTag("Obstacle"))
         {
-            AddReward(-10);
-            //Set base color of the ground material to red
-            groundMaterial.color = Color.red;
+            AddReward(-1.5f);
+            episodeFailed.Invoke();
             EndEpisode();
         }
         if (other.gameObject.CompareTag("Reward"))
         {
-            AddReward(100);
+            AddReward(1.5f);
             other.gameObject.SetActive(false);
         }
 
