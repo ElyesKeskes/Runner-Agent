@@ -9,15 +9,33 @@
                 "auxillary_file_paths": [
                     "results\\RunnerV1\\RunnerV1\\RunnerV1-16136.pt"
                 ]
+            },
+            {
+                "steps": 77209,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-77209.onnx",
+                "reward": -3.1809043884277344,
+                "creation_time": 1726871532.9341803,
+                "auxillary_file_paths": [
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-77209.pt"
+                ]
+            },
+            {
+                "steps": 142473,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-142473.onnx",
+                "reward": null,
+                "creation_time": 1726872342.3304074,
+                "auxillary_file_paths": [
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-142473.pt"
+                ]
             }
         ],
         "final_checkpoint": {
-            "steps": 16136,
+            "steps": 142473,
             "file_path": "results\\RunnerV1\\RunnerV1.onnx",
             "reward": null,
-            "creation_time": 1726870547.6674104,
+            "creation_time": 1726872342.3304074,
             "auxillary_file_paths": [
-                "results\\RunnerV1\\RunnerV1\\RunnerV1-16136.pt"
+                "results\\RunnerV1\\RunnerV1\\RunnerV1-142473.pt"
             ]
         }
     },

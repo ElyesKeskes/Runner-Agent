@@ -972,13 +972,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4151919695432012962, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
+      propertyPath: jumpForce
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151919695432012962, guid: 81091ba2022035b4cbce9fc3d0c9e634,
+        type: 3}
       propertyPath: strafeSpeed
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4151919695432012962, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
       propertyPath: forwardSpeed
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6452428955065462501, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
