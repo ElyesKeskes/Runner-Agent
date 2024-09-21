@@ -55,14 +55,14 @@ public class RunnerAgent : Agent
         //Set base color of the ground material to red
         groundMaterialCopy.color = Color.red;
         //Add reward 1 x ratio of distance to goal
-        if(distanceToGoal > 0.3f * pathLength)
-        {
-            AddReward(-0.1f * (distanceToGoal / pathLength));
-        }
-        else
-        {
-            AddReward(-1);
-        }
+        // if(distanceToGoal > 0.3f * pathLength)
+        // {
+        //     AddReward(-0.1f * (distanceToGoal / pathLength));
+        // }
+        // else
+        // {
+        //     AddReward(-1);
+        // }
     }
 
     void ResetRewards()
@@ -195,6 +195,10 @@ public class RunnerAgent : Agent
 
     void RandomizeObstacleZPositions()
     {
+        if (noObstacles)
+        {
+            return;
+        }
         // Determine the Z position range for the obstacles
         float minZPosition = agentStartLocalPosition.localPosition.z + pathLength * 0.2f; // 20% of the path length
         float maxZPosition = goalLocalZPosition - minDistanceBetweenObstacles * (obstacleTransforms.Count - 1);
@@ -237,6 +241,10 @@ public class RunnerAgent : Agent
 
     void RandomizeRewardXandZPositions()
     {
+        if (noRewards)
+        {
+            return;
+        }
         float minZPosition = agentStartLocalPosition.localPosition.z + pathLength * 0.1f; // 10% of the path length
         float maxZPosition = goalLocalZPosition;
         float halfPathWidth = pathWidth / 2f; // X positions will be in the range [-halfPathWidth, halfPathWidth]
@@ -291,7 +299,7 @@ public class RunnerAgent : Agent
 
 
     public override void CollectObservations(VectorSensor sensor)
-    {
+    {  
         GetDistanceToNextObstacle();
         GetDistanceToNextReward();
         GetDistanceToGoal();
@@ -305,11 +313,33 @@ public class RunnerAgent : Agent
         sensor.AddObservation(isGrounded);
     }
 
+    void CheckIfMissedNextReward()
+    {
+        if (nextReward != null)
+        {
+            if (transform.position.z > nextReward.transform.position.z)
+            {
+                AddReward(-0.1f);
+            }
+        }
+    }
+
+    void CheckIfAvoidedNextObstacle()
+    {
+        if (nextObstacle != null)
+        {
+            if (transform.position.z > nextObstacle.transform.position.z)
+            {
+                AddReward(0.1f);
+            }
+        }
+    }
+
     void Jump()
     {
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        //Debug log in pink color AGENT JUMPED
-        Debug.Log("<color=pink>AGENT JUMPED</color>");
+        // //Debug log in pink color AGENT JUMPED
+        // Debug.Log("<color=pink>AGENT JUMPED</color>");
     }
     //Agent Actions: Since it's always running forward without any action, it only moves on the x-axis and jumps (Add force on the y-axis)
     public override void OnActionReceived(ActionBuffers actions)
@@ -318,9 +348,11 @@ public class RunnerAgent : Agent
         //Two descrete branches: One for movement on x axis and one for jumping: First branch size is 3 (don't move sideways, move left, move right) and second branch size is 2 (jump, don't jump)
         //var moveX = 2f * Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
         var moveX = actions.ContinuousActions[0];
+
+        
         int jump = actions.DiscreteActions[0];
-        //Movement
-        transform.Translate(moveX * strafeSpeed * Time.deltaTime, 0, 0);
+        // //Movement
+       transform.Translate(moveX * strafeSpeed * Time.deltaTime, 0, 0);
 
         //Jump
         if (jump == 1 && isGrounded)
@@ -363,7 +395,7 @@ public class RunnerAgent : Agent
     {
         if (other.gameObject.CompareTag("Goal")) //Goal at the end of the path
         {
-            AddReward(5);
+            AddReward(3f);
             //Set base color of the ground material to green
             groundMaterialCopy.color = Color.green;
             EndEpisode();
@@ -371,8 +403,8 @@ public class RunnerAgent : Agent
         if (other.gameObject.CompareTag("Wall")) //Walls on the sides of the path
         {
             AddReward(-1);
-            episodeFailed.Invoke();
-            EndEpisode();
+             episodeFailed.Invoke();
+             EndEpisode();
 
         }
         //Obstacle and Reward (coin)
@@ -389,4 +421,14 @@ public class RunnerAgent : Agent
         }
 
     }
+
+    // void OnTriggerStay(Collider other)
+    // {
+    //     if (other.gameObject.CompareTag("Wall")) //Walls on the sides of the path
+    //     {
+    //         AddReward(-0.001f);
+            
+    //     }
+    // }
+
 }

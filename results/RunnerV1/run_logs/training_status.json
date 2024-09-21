@@ -2,40 +2,40 @@
     "RunnerV1": {
         "checkpoints": [
             {
-                "steps": 16136,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-16136.onnx",
+                "steps": 871,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-871.onnx",
                 "reward": null,
-                "creation_time": 1726870547.6674104,
+                "creation_time": 1726931456.6859815,
                 "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-16136.pt"
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-871.pt"
                 ]
             },
             {
-                "steps": 77209,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-77209.onnx",
-                "reward": -3.1809043884277344,
-                "creation_time": 1726871532.9341803,
+                "steps": 0,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-0.onnx",
+                "reward": null,
+                "creation_time": 1726931675.1096025,
                 "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-77209.pt"
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-0.pt"
                 ]
             },
             {
-                "steps": 142473,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-142473.onnx",
+                "steps": 60493,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-60493.onnx",
                 "reward": null,
-                "creation_time": 1726872342.3304074,
+                "creation_time": 1726932314.467145,
                 "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-142473.pt"
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-60493.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 142473,
+            "steps": 60493,
             "file_path": "results\\RunnerV1\\RunnerV1.onnx",
             "reward": null,
-            "creation_time": 1726872342.3304074,
+            "creation_time": 1726932314.467145,
             "auxillary_file_paths": [
-                "results\\RunnerV1\\RunnerV1\\RunnerV1-142473.pt"
+                "results\\RunnerV1\\RunnerV1\\RunnerV1-60493.pt"
             ]
         }
     },
