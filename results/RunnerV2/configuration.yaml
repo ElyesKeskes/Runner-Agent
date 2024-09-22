@@ -49,7 +49,7 @@ behaviors:
         encoding_size: null
         use_actions: false
         use_vail: false
-        demo_path: Demos/Runnerdemo.demo
+        demo_path: Demos/Runnerdemo2.demo
     init_path: null
     keep_checkpoints: 5
     checkpoint_interval: 500000
@@ -59,7 +59,7 @@ behaviors:
     threaded: false
     self_play: null
     behavioral_cloning:
-      demo_path: Demos/Runnerdemo.demo
+      demo_path: Demos/Runnerdemo2.demo
       steps: 0
       strength: 0.5
       samples_per_update: 0
@@ -85,7 +85,7 @@ engine_settings:
   no_graphics: false
 environment_parameters: null
 checkpoint_settings:
-  run_id: RunnerV1
+  run_id: RunnerV2
   initialize_from: null
   load_model: false
   resume: false

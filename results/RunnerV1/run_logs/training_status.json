@@ -2,40 +2,22 @@
     "RunnerV1": {
         "checkpoints": [
             {
-                "steps": 871,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-871.onnx",
-                "reward": null,
-                "creation_time": 1726931456.6859815,
+                "steps": 8890,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-8890.onnx",
+                "reward": -1.5,
+                "creation_time": 1726963722.7694507,
                 "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-871.pt"
-                ]
-            },
-            {
-                "steps": 0,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-0.onnx",
-                "reward": null,
-                "creation_time": 1726931675.1096025,
-                "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-0.pt"
-                ]
-            },
-            {
-                "steps": 60493,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-60493.onnx",
-                "reward": null,
-                "creation_time": 1726932314.467145,
-                "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-60493.pt"
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-8890.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 60493,
+            "steps": 8890,
             "file_path": "results\\RunnerV1\\RunnerV1.onnx",
-            "reward": null,
-            "creation_time": 1726932314.467145,
+            "reward": -1.5,
+            "creation_time": 1726963722.7694507,
             "auxillary_file_paths": [
-                "results\\RunnerV1\\RunnerV1\\RunnerV1-60493.pt"
+                "results\\RunnerV1\\RunnerV1\\RunnerV1-8890.pt"
             ]
         }
     },

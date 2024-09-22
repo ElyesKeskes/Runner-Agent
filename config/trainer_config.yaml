@@ -22,11 +22,11 @@ behaviors:
         strength: 1.0
       gail:
         strength: 5.0
-        demo_path: Demos/Runnerdemo.demo
+        demo_path: Demos/Runnerdemo2.demo
     behavioral_cloning:
       strength: 0.5
-      demo_path: Demos/Runnerdemo.demo
-    max_steps: 1000000
+      demo_path: Demos/Runnerdemo2.demo
+    max_steps: 500000
     time_horizon: 64
     summary_freq: 20000
     
