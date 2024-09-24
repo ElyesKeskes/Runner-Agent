@@ -955,14 +955,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardAmounts:
-    avoidObstacle: 0.5
-    touchObstacle: -0.5
+    avoidObstacle: 0.3
+    touchObstacle: -0.8
     touchCoin: 0.5
-    missCoin: -0.1
-    touchGoal: 0.5
-    touchWall: -0.5
-    jumpWhileNotGrounded: 0
-    perfectRunBonus: 0
+    missCoin: -0.2
+    touchGoal: 1
+    touchWall: -1
+    jumpWhileNotGrounded: -0.001
+    perfectRunBonus: 1.5
 --- !u!4 &986062883
 Transform:
   m_ObjectHideFlags: 0
@@ -1003,6 +1003,16 @@ PrefabInstance:
       propertyPath: coinsText
       value: 
       objectReference: {fileID: 574863978}
+    - target: {fileID: 128926854826861696, guid: 81091ba2022035b4cbce9fc3d0c9e634,
+        type: 3}
+      propertyPath: pathWidth
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 128926854826861696, guid: 81091ba2022035b4cbce9fc3d0c9e634,
+        type: 3}
+      propertyPath: pathLength
+      value: 199.5
+      objectReference: {fileID: 0}
     - target: {fileID: 128926854826861696, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
       propertyPath: obstaclesText
@@ -1098,15 +1108,25 @@ PrefabInstance:
       propertyPath: Record
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3054476432655658502, guid: 81091ba2022035b4cbce9fc3d0c9e634,
+        type: 3}
+      propertyPath: DemonstrationName
+      value: Runner_demo
+      objectReference: {fileID: 0}
     - target: {fileID: 4151919695432012962, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
       propertyPath: jumpForce
-      value: 100
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151919695432012962, guid: 81091ba2022035b4cbce9fc3d0c9e634,
+        type: 3}
+      propertyPath: strafeSpeed
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4151919695432012962, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
       propertyPath: forwardSpeed
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4331660123410830690, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
@@ -1132,6 +1152,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5147424263069423972, guid: 81091ba2022035b4cbce9fc3d0c9e634,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 5463697818236221679, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
@@ -1226,7 +1251,7 @@ PrefabInstance:
     - target: {fileID: 7462006447307726403, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
       propertyPath: m_BehaviorType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7462006447307726403, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}

@@ -2,22 +2,22 @@
     "RunnerV1": {
         "checkpoints": [
             {
-                "steps": 8890,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-8890.onnx",
-                "reward": -1.5,
-                "creation_time": 1726963722.7694507,
+                "steps": 128549,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-128549.onnx",
+                "reward": 0.09400002658367157,
+                "creation_time": 1727202240.516786,
                 "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-8890.pt"
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-128549.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 8890,
+            "steps": 128549,
             "file_path": "results\\RunnerV1\\RunnerV1.onnx",
-            "reward": -1.5,
-            "creation_time": 1726963722.7694507,
+            "reward": 0.09400002658367157,
+            "creation_time": 1727202240.516786,
             "auxillary_file_paths": [
-                "results\\RunnerV1\\RunnerV1\\RunnerV1-8890.pt"
+                "results\\RunnerV1\\RunnerV1\\RunnerV1-128549.pt"
             ]
         }
     },

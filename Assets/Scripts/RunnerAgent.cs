@@ -19,7 +19,7 @@ public class RunnerAgent : Agent
     public float distanceToNextObstacle;//Must be observed
     public float distanceToSecondNextObstacle; //Must be observed
     public float distanceToNextReward;//Must be observed
-    public float nextRewardXPosition; //Must be observed
+    public float nextRewardXPosition;
     public GameObject nextReward;
     public GameObject nextObstacle;
     public GameObject secondNextObstacle;
@@ -28,9 +28,9 @@ public class RunnerAgent : Agent
     public int coinsGot = 0;
     public int obstaclesAvoided = 0;
     //Ratio values
-    public float nextRewardXPositionRatio;
-    public float agentXPositionRatio;
-    public float distanceToGoalRatio;
+    public float nextRewardXPositionRatio; //Must be observed
+    public float agentXPositionRatio; //Must be observed
+    public float distanceToGoalRatio; //Must be observed
 
 
     void Start()
@@ -41,18 +41,17 @@ public class RunnerAgent : Agent
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         //Always move forward
         transform.Translate(0, 0, forwardSpeed * Time.deltaTime);
         IsGrounded();
     }
 
-
-
-
-   
-
+    void Update()
+    {
+        IsGrounded();
+    }
 
 
 
@@ -76,6 +75,103 @@ public class RunnerAgent : Agent
         sensor.AddObservation(distanceToGoalRatio);
         sensor.AddObservation(isGrounded);
     }
+
+    //Agent Actions: Since it's always running forward without any action, it only moves on the x-axis and jumps (Add force on the y-axis)
+    public override void OnActionReceived(ActionBuffers actions)
+    {
+        //One continuous action for x-axis movement
+        var moveX = actions.ContinuousActions[0];
+        //One discrete action for jumping
+        int jump = actions.DiscreteActions[0];
+        // //Movement
+        transform.Translate(moveX * strafeSpeed * Time.deltaTime, 0, 0);
+
+        //Jump
+        if (jump == 1 && isGrounded)
+        {
+            Jump();
+        }
+        if (jump == 1 && !isGrounded)
+        {
+            Debug.Log("AGENT JUMPED WHILE NOT GROUNDED");
+            AddReward(TrainingManager.Instance.rewardAmounts.jumpWhileNotGrounded);
+        }
+    }
+
+    void Jump()
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        Debug.Log("AGENT JUMPED");
+    }
+
+    public override void OnEpisodeBegin()
+    {
+        coinsGot = 0;
+        trainingEnvironmentManager.GeneratePath();
+        trainingEnvironmentManager.ResetUI();
+        InitializeNextObstacle();
+        GetDistanceToNextObstacles();
+        GetDistanceToNextReward();
+        GetDistanceToGoal();
+        Debug.Log("<color=yellow>Episode Begin</color>");
+        transform.localPosition = trainingEnvironmentManager.agentStartLocalPosition.localPosition;
+
+    }
+
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var continuousActionsOut = actionsOut.ContinuousActions;
+        continuousActionsOut[0] = Input.GetAxis("Horizontal");
+        var discreteActionsOut = actionsOut.DiscreteActions;
+        discreteActionsOut[0] = (Input.GetKey(KeyCode.Space) && isGrounded) ? 1 : 0;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Goal")) //Goal at the end of the path
+        {
+            AddReward(TrainingManager.Instance.rewardAmounts.touchGoal);
+            //Set base color of the ground material to green
+            trainingEnvironmentManager.groundMaterialCopy.color = Color.green;
+            if (CheckIfAllCoinsCollected())
+            {
+                AddReward(TrainingManager.Instance.rewardAmounts.perfectRunBonus);
+            }
+            EndEpisode();
+        }
+        if (other.gameObject.CompareTag("Wall")) //Walls on the sides of the path
+        {
+            AddReward(TrainingManager.Instance.rewardAmounts.touchWall);
+            trainingEnvironmentManager.episodeFailed.Invoke();
+            EndEpisode();
+
+        }
+
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            AddReward(TrainingManager.Instance.rewardAmounts.touchObstacle);
+            trainingEnvironmentManager.episodeFailed.Invoke();
+            EndEpisode();
+        }
+        if (other.gameObject.CompareTag("Reward"))
+        {
+            AddReward(TrainingManager.Instance.rewardAmounts.touchCoin);
+            other.gameObject.SetActive(false);
+            coinsGot++;
+            trainingEnvironmentManager.updateUI?.Invoke();
+        }
+
+    }
+
+    // public override void EndEpisode()
+    // {
+    //     base.EndEpisode();
+    //     Debug.Log("<color=yellow>Episode Ended</color>");
+    //     //Debug log the rewards in this episode
+    //     Debug.Log("Total Rewards: " + GetCumulativeReward());
+    // }
+
+    
 
 
     public void OnCoinMissed()
@@ -126,7 +222,7 @@ public class RunnerAgent : Agent
             distanceToNextObstacle = 1000f; // No obstacles
         }
     }
-     public void UpdateNextObstacles()
+    public void UpdateNextObstacles()
     {
         if (nextObstacle == null) return;
 
@@ -237,32 +333,9 @@ public class RunnerAgent : Agent
         distanceToGoal = Vector3.Distance(new Vector3(0, 0, transform.localPosition.z), new Vector3(0, 0, trainingEnvironmentManager.goalLocalZPosition));
     }
 
-    void Jump()
-    {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-    }
 
-    //Agent Actions: Since it's always running forward without any action, it only moves on the x-axis and jumps (Add force on the y-axis)
-    public override void OnActionReceived(ActionBuffers actions)
-    {
-        //One continuous action for x-axis movement
-        var moveX = actions.ContinuousActions[0];
-        //One discrete action for jumping
-        int jump = actions.DiscreteActions[0];
-        // //Movement
-        transform.Translate(moveX * strafeSpeed * Time.deltaTime, 0, 0);
 
-        //Jump
-        if (jump == 1 && isGrounded)
-        {
-            Jump();
-        }
-        if (jump == 1 && !isGrounded)
-        {
-            //Shouldn't  jump in the air!
-            AddReward(TrainingManager.Instance.rewardAmounts.jumpWhileNotGrounded);
-        }
-    }
+
 
     void IsGrounded()
     {
@@ -274,63 +347,8 @@ public class RunnerAgent : Agent
         }
     }
 
-    public override void OnEpisodeBegin()
-    {
 
-        trainingEnvironmentManager.GeneratePath();
-        trainingEnvironmentManager.ResetUI();
-        InitializeNextObstacle();
-        GetDistanceToNextObstacles();
-        GetDistanceToNextReward();
-        GetDistanceToGoal();
-        Debug.Log("<color=yellow>Episode Begin</color>");
-        transform.localPosition = trainingEnvironmentManager.agentStartLocalPosition.localPosition;
 
-    }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        var continuousActionsOut = actionsOut.ContinuousActions;
-        continuousActionsOut[0] = Input.GetAxis("Horizontal");
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = (Input.GetKey(KeyCode.Space) && isGrounded) ? 1 : 0;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Goal")) //Goal at the end of the path
-        {
-            AddReward(TrainingManager.Instance.rewardAmounts.touchGoal);
-            //Set base color of the ground material to green
-            trainingEnvironmentManager.groundMaterialCopy.color = Color.green;
-            if (CheckIfAllCoinsCollected())
-            {
-                AddReward(TrainingManager.Instance.rewardAmounts.perfectRunBonus);
-            }
-            EndEpisode();
-        }
-        if (other.gameObject.CompareTag("Wall")) //Walls on the sides of the path
-        {
-            AddReward(TrainingManager.Instance.rewardAmounts.touchWall);
-            trainingEnvironmentManager.episodeFailed.Invoke();
-            EndEpisode();
-
-        }
-
-        if (other.gameObject.CompareTag("Obstacle"))
-        {
-            AddReward(TrainingManager.Instance.rewardAmounts.touchObstacle);
-            trainingEnvironmentManager.episodeFailed.Invoke();
-            EndEpisode();
-        }
-        if (other.gameObject.CompareTag("Reward"))
-        {
-            AddReward(TrainingManager.Instance.rewardAmounts.touchCoin);
-            other.gameObject.SetActive(false);
-            coinsGot++;
-            trainingEnvironmentManager.updateUI?.Invoke();
-        }
-
-    }
 
 }

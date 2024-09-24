@@ -63,9 +63,24 @@ public class TrainingEnvironmentManager : MonoBehaviour
     }
 
     public void ResetUI()
-    {
-        obstaclesText.text = "0/0";
-        coinsText.text = "0/0";
+    {   int activeObstacles = 0;
+        int activeCoins = 0;
+        foreach (var obstacle in obstacleTransforms)
+        {
+            if (obstacle.gameObject.activeSelf)
+            {
+                activeObstacles++;
+            }
+        }
+        foreach (var reward in rewardTransforms)
+        {
+            if (reward.gameObject.activeSelf)
+            {
+                activeCoins++;
+            }
+        }
+        obstaclesText.text = "0/" + activeObstacles;
+        coinsText.text = "0/" + activeCoins;
         coinsText.color = Color.white;
     }
 
@@ -208,7 +223,7 @@ public class TrainingEnvironmentManager : MonoBehaviour
             float sectionMaxZ = sectionMinZ + sectionLength;
 
             float newZ = UnityEngine.Random.Range(sectionMinZ, sectionMaxZ);
-            float randomX = UnityEngine.Random.Range(-halfPathWidth, halfPathWidth);
+            float randomX = UnityEngine.Random.Range(-halfPathWidth-1, halfPathWidth-1); //-1 so it doesn't spawn on the walls on the sides
 
             if (IsTooCloseToObstacle(newZ))
             {
