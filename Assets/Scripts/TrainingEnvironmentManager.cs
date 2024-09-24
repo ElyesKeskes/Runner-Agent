@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
 
 public class TrainingEnvironmentManager : MonoBehaviour
 {
@@ -19,23 +20,70 @@ public class TrainingEnvironmentManager : MonoBehaviour
     public Material groundMaterialCopy;
     [SerializeField] public Transform agentStartLocalPosition;
     public Action episodeFailed;
+    public Action coinMissed;
+    public Action obstacleAvoided;
+    public Action updateUI;
     public bool noObstacles = false;
     public bool noRewards = false;
     public MeshRenderer groundMeshRenderer;
     public RunnerAgent agent;
+    public TextMeshProUGUI obstaclesText;
+    public TextMeshProUGUI coinsText;
+    public void UpdateUI()
+    {
+        //Formatted as "X/Total" where X is the number of obstacles avoided or coins collected
+       //Total counts only active coins or obstacles
+        int activeObstacles = 0;
+        int activeCoins = 0;
+        foreach (var obstacle in obstacleTransforms)
+        {
+            if (obstacle.gameObject.activeSelf)
+            {
+                activeObstacles++;
+            }
+        }
+        foreach (var reward in rewardTransforms)
+        {
+            if (reward.gameObject.activeSelf)
+            {
+                activeCoins++;
+            }
+        }
+        obstaclesText.text = $"{agent.obstaclesAvoided}/{activeObstacles}";
+        coinsText.text = $"{agent.coinsGot}/{activeCoins}";
+        //Color the text red if the agent has missed a coin, green if got all coins
+        if (agent.coinsGot == activeCoins)
+        {
+            coinsText.color = Color.green;
+        }
+        else
+        {
+            coinsText.color = Color.red;
+        }
+    }
+
+    public void ResetUI()
+    {
+        obstaclesText.text = "0/0";
+        coinsText.text = "0/0";
+        coinsText.color = Color.white;
+    }
 
     void Start()
     {
         episodeFailed += OnFail;
+        coinMissed += agent.OnCoinMissed;
+        obstacleAvoided += agent.OnObstacleAvoided;
+        updateUI += UpdateUI;
         Initialize();
     }
+
+
 
     public void Initialize()
     {
         groundMaterialCopy = new Material(groundMaterial);
         groundMeshRenderer.material = groundMaterialCopy;
-
-        agent.rb = GetComponent<Rigidbody>();
         goalLocalZPosition = transform.GetChild(2).localPosition.z;
         pathLength = goalLocalZPosition - agentStartLocalPosition.localPosition.z;
 

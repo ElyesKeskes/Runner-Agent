@@ -17,22 +17,27 @@ public class RunnerAgent : Agent
     [SerializeField] public float forwardSpeed;
     public float distanceToGoal;
     public float distanceToNextObstacle;//Must be observed
+    public float distanceToSecondNextObstacle; //Must be observed
     public float distanceToNextReward;//Must be observed
     public float nextRewardXPosition; //Must be observed
     public GameObject nextReward;
     public GameObject nextObstacle;
     public GameObject secondNextObstacle;
     public bool isGrounded = true; //Must be observed
-    public TrainingEnvironmentManager trainingEnvironmentManager;
+    private TrainingEnvironmentManager trainingEnvironmentManager;
+    public int coinsGot = 0;
+    public int obstaclesAvoided = 0;
+    //Ratio values
+    public float nextRewardXPositionRatio;
+    public float agentXPositionRatio;
+    public float distanceToGoalRatio;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         trainingEnvironmentManager = transform.parent.GetComponent<TrainingEnvironmentManager>();
-        GetDistanceToNextObstacle();
-        GetDistanceToNextReward();
-        GetDistanceToGoal();
-        CalculateJumpDistance();
+        //CalculateJumpDistance();
     }
 
 
@@ -43,72 +48,154 @@ public class RunnerAgent : Agent
         IsGrounded();
     }
 
+
+
+
+   
+
+
+
+
     public override void CollectObservations(VectorSensor sensor)
     {
-        GetDistanceToNextObstacle();
+        GetDistanceToNextObstacles();
         GetDistanceToNextReward();
         GetDistanceToGoal();
-        
+
+        //Calculate ratios
+
+        nextRewardXPositionRatio = nextRewardXPosition / trainingEnvironmentManager.pathWidth;
+        distanceToGoalRatio = distanceToGoal / trainingEnvironmentManager.pathLength;
+        agentXPositionRatio = transform.localPosition.x / trainingEnvironmentManager.pathWidth;
 
         sensor.AddObservation(distanceToNextObstacle);
+        sensor.AddObservation(distanceToSecondNextObstacle);
         sensor.AddObservation(distanceToNextReward);
-        sensor.AddObservation(nextRewardXPosition / trainingEnvironmentManager.pathWidth);
-        sensor.AddObservation(transform.localPosition.x / trainingEnvironmentManager.pathWidth);
-        sensor.AddObservation(distanceToGoal / trainingEnvironmentManager.pathLength);
+        sensor.AddObservation(nextRewardXPosition);
+        sensor.AddObservation(agentXPositionRatio);
+        sensor.AddObservation(distanceToGoalRatio);
         sensor.AddObservation(isGrounded);
     }
 
-    void CheckIfMissedNextReward()
+
+    public void OnCoinMissed()
     {
-        if (nextReward != null)
-        {
-            if (transform.position.z > nextReward.transform.position.z)
-            {
-                AddReward(-0.1f);
-            }
-        }
+        AddReward(TrainingManager.Instance.rewardAmounts.missCoin);
+        //Debug log in red
+        Debug.Log("<color=red>Coin Missed</color>");
     }
 
-    void CheckIfAvoidedNextObstacle()
+    public void OnObstacleAvoided()
+    {
+        AddReward(TrainingManager.Instance.rewardAmounts.avoidObstacle);
+        //Debug log in green
+        Debug.Log("<color=green>Obstacle Avoided</color>");
+        obstaclesAvoided++;
+        UpdateNextObstacles();
+        trainingEnvironmentManager.updateUI?.Invoke();
+    }
+
+    bool CheckIfAllCoinsCollected()
+    {
+        //Counts total of coins in scene only the ones that are active
+        int activeCoins = 0;
+        foreach (var reward in trainingEnvironmentManager.rewardTransforms)
+        {
+            if (reward.gameObject.activeSelf)
+            {
+                activeCoins++;
+            }
+        }
+        if (coinsGot == activeCoins)
+        {
+            return true;
+        }
+        return false;
+    }
+    public void InitializeNextObstacle()
+    {
+        if (trainingEnvironmentManager.obstacleTransforms.Count > 1)
+        {
+            nextObstacle = trainingEnvironmentManager.obstacleTransforms[0].gameObject; // Closest to the goal
+            secondNextObstacle = trainingEnvironmentManager.obstacleTransforms[1].gameObject;
+        }
+        else
+        {
+            nextObstacle = null;
+            secondNextObstacle = null;
+            distanceToNextObstacle = 1000f; // No obstacles
+        }
+    }
+     public void UpdateNextObstacles()
+    {
+        if (nextObstacle == null) return;
+
+        int nextIndex = nextObstacle.transform.GetSiblingIndex() + 1;
+        GameObject potentialNextObstacle = null;
+        GameObject potentialSecondNextObstacle = null;
+
+        // Find the next active obstacle for nextObstacle
+        while (nextIndex < trainingEnvironmentManager.obstacleTransforms.Count)
+        {
+            potentialNextObstacle = trainingEnvironmentManager.obstacleTransforms[nextIndex].gameObject;
+
+            if (potentialNextObstacle.activeInHierarchy)
+            {
+                nextObstacle = potentialNextObstacle;
+                break;
+            }
+
+            nextIndex++;
+        }
+
+        // Update secondNextObstacle: Find the second next active obstacle
+        nextIndex = nextObstacle != null ? nextObstacle.transform.GetSiblingIndex() + 1 : nextIndex;
+
+        while (nextIndex < trainingEnvironmentManager.obstacleTransforms.Count)
+        {
+            potentialSecondNextObstacle = trainingEnvironmentManager.obstacleTransforms[nextIndex].gameObject;
+
+            if (potentialSecondNextObstacle.activeInHierarchy)
+            {
+                secondNextObstacle = potentialSecondNextObstacle;
+                break;
+            }
+
+            nextIndex++;
+        }
+
+        // If no more active obstacles found, set null
+        if (potentialNextObstacle == null || !potentialNextObstacle.activeInHierarchy)
+        {
+            nextObstacle = null;
+            distanceToNextObstacle = 1000f;
+        }
+
+        if (potentialSecondNextObstacle == null || !potentialSecondNextObstacle.activeInHierarchy)
+        {
+            secondNextObstacle = null;
+            distanceToSecondNextObstacle = 1000f;
+        }
+    }
+    public void GetDistanceToNextObstacles() //Must be in front of the agent on the Z axis
     {
         if (nextObstacle != null)
         {
-            if (transform.position.z > nextObstacle.transform.position.z)
-            {
-                AddReward(0.1f);
-            }
+            distanceToNextObstacle = Vector3.Distance(new Vector3(0, 0, transform.localPosition.z), new Vector3(0, 0, nextObstacle.transform.localPosition.z));
         }
-    }
+        else
+        {
+            distanceToNextObstacle = 1000f;
+        }
 
-    public void GetDistanceToNextObstacle() //Must be in front of the agent on the Z axis
-    {
-        bool found = false;
-        if (trainingEnvironmentManager.noObstacles)
+        if (secondNextObstacle != null)
         {
-            distanceToNextObstacle = 1000f;
-            return;
+            distanceToSecondNextObstacle = Vector3.Distance(new Vector3(0, 0, transform.localPosition.z), new Vector3(0, 0, secondNextObstacle.transform.localPosition.z));
         }
-        float minDistance = Mathf.Infinity;
-        for (int i = 0; i < trainingEnvironmentManager.obstacleTransforms.Count; i++)
+        else
         {
-            if (transform.position.z < trainingEnvironmentManager.obstacleTransforms[i].position.z) //If the obstacle is in front of the agent
-            {
-                found = true;
-                float distance = Vector3.Distance(new Vector3(0, 0, transform.localPosition.z), new Vector3(0, 0, trainingEnvironmentManager.obstacleTransforms[i].localPosition.z));
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    nextObstacle = trainingEnvironmentManager.obstacleTransforms[i].gameObject;
-                }
-            }
+            distanceToSecondNextObstacle = 1000f;
         }
-        if (!found)
-        {
-            distanceToNextObstacle = 1000f;
-            nextObstacle = null;
-            return;
-        }
-        distanceToNextObstacle = minDistance;
     }
 
     public void GetDistanceToNextReward()
@@ -170,30 +257,12 @@ public class RunnerAgent : Agent
         {
             Jump();
         }
-        // if (jump == 1 && !isGrounded)
-        // {
-        //     //Shouldn't  jump in the air!
-        //     AddReward(-0.1f);
-        // }
+        if (jump == 1 && !isGrounded)
+        {
+            //Shouldn't  jump in the air!
+            AddReward(TrainingManager.Instance.rewardAmounts.jumpWhileNotGrounded);
+        }
     }
-
-     void CalculateJumpDistance()
-    {
-        // Step 1: Calculate initial vertical velocity (v0 = jumpForce / mass)
-        float initialVerticalVelocity = jumpForce / rb.mass;
-
-        // Step 2: Calculate time to reach the highest point
-        float timeToPeak = initialVerticalVelocity;
-
-        // Step 3: Total air time is twice the time to reach the peak
-        float totalAirTime = 2 * timeToPeak;
-
-        // Step 4: Calculate the horizontal distance traveled (forwardSpeed * totalAirTime)
-        float horizontalDistance = forwardSpeed * totalAirTime;
-
-        Debug.Log($"Horizontal distance traveled in air: {horizontalDistance} Unity units");
-    }
-
 
     void IsGrounded()
     {
@@ -209,8 +278,9 @@ public class RunnerAgent : Agent
     {
 
         trainingEnvironmentManager.GeneratePath();
-        
-        GetDistanceToNextObstacle();
+        trainingEnvironmentManager.ResetUI();
+        InitializeNextObstacle();
+        GetDistanceToNextObstacles();
         GetDistanceToNextReward();
         GetDistanceToGoal();
         Debug.Log("<color=yellow>Episode Begin</color>");
@@ -230,29 +300,35 @@ public class RunnerAgent : Agent
     {
         if (other.gameObject.CompareTag("Goal")) //Goal at the end of the path
         {
-            AddReward(3f);
+            AddReward(TrainingManager.Instance.rewardAmounts.touchGoal);
             //Set base color of the ground material to green
             trainingEnvironmentManager.groundMaterialCopy.color = Color.green;
+            if (CheckIfAllCoinsCollected())
+            {
+                AddReward(TrainingManager.Instance.rewardAmounts.perfectRunBonus);
+            }
             EndEpisode();
         }
         if (other.gameObject.CompareTag("Wall")) //Walls on the sides of the path
         {
-            AddReward(-1);
+            AddReward(TrainingManager.Instance.rewardAmounts.touchWall);
             trainingEnvironmentManager.episodeFailed.Invoke();
             EndEpisode();
 
         }
-        //Obstacle and Reward (coin)
+
         if (other.gameObject.CompareTag("Obstacle"))
         {
-            AddReward(-1.5f);
+            AddReward(TrainingManager.Instance.rewardAmounts.touchObstacle);
             trainingEnvironmentManager.episodeFailed.Invoke();
             EndEpisode();
         }
         if (other.gameObject.CompareTag("Reward"))
         {
-            AddReward(1.5f);
+            AddReward(TrainingManager.Instance.rewardAmounts.touchCoin);
             other.gameObject.SetActive(false);
+            coinsGot++;
+            trainingEnvironmentManager.updateUI?.Invoke();
         }
 
     }
