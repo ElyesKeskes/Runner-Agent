@@ -1038,6 +1038,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrainingSetup
       objectReference: {fileID: 0}
+    - target: {fileID: 551905522581520961, guid: 81091ba2022035b4cbce9fc3d0c9e634,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.4
+      objectReference: {fileID: 0}
     - target: {fileID: 802241400007456797, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1081,7 +1086,7 @@ PrefabInstance:
     - target: {fileID: 1836919593427635858, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.90000004
+      value: 2.2999995
       objectReference: {fileID: 0}
     - target: {fileID: 1853790675558473180, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
@@ -1251,7 +1256,7 @@ PrefabInstance:
     - target: {fileID: 7462006447307726403, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
       propertyPath: m_BehaviorType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7462006447307726403, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}

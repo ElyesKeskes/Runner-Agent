@@ -309,7 +309,7 @@ public class RunnerAgent : Agent
             if (transform.position.z < trainingEnvironmentManager.rewardTransforms[i].position.z) //If the reward is in front of the agent
             {
                 found = true;
-                float distance = Vector3.Distance(new Vector3(transform.localPosition.x, 0, transform.localPosition.z), new Vector3(trainingEnvironmentManager.rewardTransforms[i].localPosition.x, 0, trainingEnvironmentManager.rewardTransforms[i].localPosition.z));
+                float distance = Vector3.Distance(new Vector3(transform.localPosition.x, 0, transform.localPosition.z+0.5f), new Vector3(trainingEnvironmentManager.rewardTransforms[i].localPosition.x, 0, trainingEnvironmentManager.rewardTransforms[i].localPosition.z-0.5f));
                 if (distance < minDistance)
                 {
                     minDistance = distance;
