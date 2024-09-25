@@ -1,0 +1,29 @@
+{
+    "RunnerV1": {
+        "checkpoints": [
+            {
+                "steps": 0,
+                "file_path": "results\\6\\RunnerV1\\RunnerV1-0.onnx",
+                "reward": null,
+                "creation_time": 1727218606.114175,
+                "auxillary_file_paths": [
+                    "results\\6\\RunnerV1\\RunnerV1-0.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 0,
+            "file_path": "results\\6\\RunnerV1.onnx",
+            "reward": null,
+            "creation_time": 1727218606.114175,
+            "auxillary_file_paths": [
+                "results\\6\\RunnerV1\\RunnerV1-0.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

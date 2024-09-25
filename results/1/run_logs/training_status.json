@@ -1,0 +1,65 @@
+{
+    "RunnerV1": {
+        "checkpoints": [
+            {
+                "steps": 19999955,
+                "file_path": "results\\1\\RunnerV1\\RunnerV1-19999955.onnx",
+                "reward": -1.0000000074505806,
+                "creation_time": 1727214870.7117684,
+                "auxillary_file_paths": [
+                    "results\\1\\RunnerV1\\RunnerV1-19999955.pt"
+                ]
+            },
+            {
+                "steps": 20499969,
+                "file_path": "results\\1\\RunnerV1\\RunnerV1-20499969.onnx",
+                "reward": -1.0317778032686975,
+                "creation_time": 1727215142.9059823,
+                "auxillary_file_paths": [
+                    "results\\1\\RunnerV1\\RunnerV1-20499969.pt"
+                ]
+            },
+            {
+                "steps": 20999951,
+                "file_path": "results\\1\\RunnerV1\\RunnerV1-20999951.onnx",
+                "reward": -0.9619230857262244,
+                "creation_time": 1727215410.7594955,
+                "auxillary_file_paths": [
+                    "results\\1\\RunnerV1\\RunnerV1-20999951.pt"
+                ]
+            },
+            {
+                "steps": 21332052,
+                "file_path": "results\\1\\RunnerV1\\RunnerV1-21332052.onnx",
+                "reward": -0.800000011920929,
+                "creation_time": 1727215729.1668,
+                "auxillary_file_paths": [
+                    "results\\1\\RunnerV1\\RunnerV1-21332052.pt"
+                ]
+            },
+            {
+                "steps": 21365935,
+                "file_path": "results\\1\\RunnerV1\\RunnerV1-21365935.onnx",
+                "reward": null,
+                "creation_time": 1727215903.7811244,
+                "auxillary_file_paths": [
+                    "results\\1\\RunnerV1\\RunnerV1-21365935.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 21365935,
+            "file_path": "results\\1\\RunnerV1.onnx",
+            "reward": null,
+            "creation_time": 1727215903.7811244,
+            "auxillary_file_paths": [
+                "results\\1\\RunnerV1\\RunnerV1-21365935.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

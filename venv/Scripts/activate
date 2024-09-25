@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\MachineLearningProject\venv"
+VIRTUAL_ENV="C:\Users\keske\OneDrive\Bureau\TestMLagent\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

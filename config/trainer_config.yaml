@@ -2,8 +2,8 @@ behaviors:
   RunnerV1:
     trainer_type: ppo
     hyperparameters:
-      batch_size: 2048
-      buffer_size: 1024
+      batch_size: 512
+      buffer_size: 20480
       learning_rate: 3.0e-4
       beta: 5.0e-4
       epsilon: 0.2
@@ -21,12 +21,12 @@ behaviors:
         gamma: 0.99
         strength: 1.0
       gail:
-        strength: 5.0
-        demo_path: Demos/Runnerdemo.demo
+        strength: 0.5
+        demo_path: Demos/Runnerdemo3.demo
     behavioral_cloning:
       strength: 0.5
-      demo_path: Demos/Runnerdemo.demo
-    max_steps: 500000
+      demo_path: Demos/Runnerdemo3.demo
+    max_steps: 50000000000
     time_horizon: 64
     summary_freq: 20000
     
