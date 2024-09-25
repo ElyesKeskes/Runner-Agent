@@ -173,30 +173,59 @@ public class RunnerAgent : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<int> action = actionsOut.DiscreteActions;
-        action[0] = (Input.GetKey(KeyCode.Space) && isGrounded) ? 1 : 0;
+        // action[0] = (Input.GetKey(KeyCode.Space) && isGrounded) ? 1 : 0;
 
-        if (Input.GetKey(KeyCode.Q))
-        {
-            action[1] = 2;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            action[1] = 1;
-        }
-        else { action[1] = 0; }
+        // if (Input.GetKey(KeyCode.Q))
+        // {
+        //     action[1] = 2;
+        // }
+        // else if (Input.GetKey(KeyCode.D))
+        // {
+        //     action[1] = 1;
+        // }
+        // else { action[1] = 0; }
 
         //For testing purposes in heuristic mode & Demo recorder, allows automatic jumping
 
-        // if (jumpTrigger)
-        // {
-        //     if (isGrounded && canJump)
-        //     {
-        //         action[0] = 1;
-        //     }
+        if (jumpTrigger)
+        {
+            if (isGrounded && canJump)
+            {
+                action[0] = 1;
+            }
 
-        //     jumpTrigger = false;
-        // }
+            jumpTrigger = false;
+        }
+        AlignToNextRewardX(actionsOut);
 
+    }
+
+    private void AlignToNextRewardX(ActionBuffers actionsOut)
+    {
+        ActionSegment<int> action = actionsOut.DiscreteActions;
+
+        // Difference between the agent's X position ratio and the next reward's X position ratio
+        float deltaX = nextRewardXPositionRatio - agentXPositionRatio;
+
+        // Tolerance of 1/20 = 0.05 units
+        float tolerance = 0.01f;
+
+        // Adjust movement based on the deltaX
+        if (deltaX > tolerance)
+        {
+            // Move right if the next reward is to the right
+            action[1] = 1; // Assuming this is the index for right movement
+        }
+        else if (deltaX < -tolerance)
+        {
+            // Move left if the next reward is to the left
+            action[1] = 2; // Assuming this is the index for left movement
+        }
+        else
+        {
+            // No movement if within tolerance
+            action[1] = 0;
+        }
     }
 
     void Jump()
