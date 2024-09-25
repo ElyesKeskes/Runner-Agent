@@ -14,18 +14,18 @@ behaviors:
       epsilon_schedule: linear
     network_settings:
       normalize: false
-      hidden_units: 128
-      num_layers: 2
+      hidden_units: 128 #qty of neurons
+      num_layers: 2 #qty of layers
     reward_signals:
       extrinsic:
         gamma: 0.99
         strength: 1.0
       gail:
         strength: 5.0
-        demo_path: Demos/Runnerdemo.demo
+        demo_path: Demos/RunnerdemoBOTTED.demo
     behavioral_cloning:
       strength: 0.5
-      demo_path: Demos/Runnerdemo.demo
+      demo_path: Demos/RunnerdemoBOTTED.demo
     max_steps: 500000
     time_horizon: 64
     summary_freq: 20000

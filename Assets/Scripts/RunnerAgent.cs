@@ -11,49 +11,84 @@ using Unity.MLAgents.Policies;
 
 public class RunnerAgent : Agent
 {
-    public Rigidbody rb;
+
+    [Header("Movement Monitoring")]
     [SerializeField] public float jumpForce;
     [SerializeField] public float strafeSpeed;
     [SerializeField] public float forwardSpeed;
-    public float distanceToGoal;
+    [Header("Observed Values")]
+
     public float distanceToNextObstacle;//Must be observed
     public float distanceToSecondNextObstacle; //Must be observed
     public float distanceToNextReward;//Must be observed
-    public float nextRewardXPosition;
-    public GameObject nextReward;
-    public GameObject nextObstacle;
-    public GameObject secondNextObstacle;
-    public bool isGrounded = true; //Must be observed
-    private TrainingEnvironmentManager trainingEnvironmentManager;
-    public int coinsGot = 0;
-    public int obstaclesAvoided = 0;
     //Ratio values
     public float nextRewardXPositionRatio; //Must be observed
     public float agentXPositionRatio; //Must be observed
     public float distanceToGoalRatio; //Must be observed
-      private bool canJump = true;
+    public bool isGrounded = true; //Must be observed
+    [Header("Used to calculate observed values")]
+    public float distanceToGoal;
+    public float nextRewardXPosition;
+    public GameObject nextReward;
+    public GameObject nextObstacle;
+    public GameObject secondNextObstacle;
+
+    private TrainingEnvironmentManager trainingEnvironmentManager;
+    [Header("Current run statistics")]
+    public int coinsGot = 0;
+    public int obstaclesAvoided = 0;
+    [Header("Agent movement input")]
+    public int movement = 0;
+    [Header("Movement Monitoring")]
+    public float maxJumpHeight = 0;
+    public float agentSpeed;  // Speed in units per second
+
+    private Vector3 lastPosition;  // To store the agent's last position
+    private float timeElapsed;     // To track the time elapsed for speed calculation
+    private bool canJump = true;
     private float jumpCooldown = 0.2f; // Cooldown time between jumps
     private float jumpTimer = 0f;
-
+    private bool jumpTrigger = false;
+    private Rigidbody rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         trainingEnvironmentManager = transform.parent.GetComponent<TrainingEnvironmentManager>();
-        //CalculateJumpDistance();
-    }
-
-
-    void FixedUpdate()
-    {
-
-        transform.Translate(0, 0, forwardSpeed * Time.deltaTime);
-        IsGrounded();
+        lastPosition = transform.position;  // Initialize with the current position
     }
 
     void Update()
     {
+        if (Input.GetKey(KeyCode.Space) && isGrounded && canJump)
+        {
+            Jump();
+            canJump = false;
+            jumpTimer = 0f;
+        }
 
+        //For testing purposes in Default mode if in OnActionReceived jumping logic is commented out: allows automatic jumping
+
+        // if (jumpTrigger)
+        // {
+        //     if (isGrounded && canJump)
+        //     {
+        //         //Trigger input spacebar
+        //         Jump();
+
+        //     }
+
+        //     jumpTrigger = false;
+        // }
+    }
+
+    void FixedUpdate()
+    {
+
+        transform.Translate(movement * strafeSpeed * Time.fixedDeltaTime, 0, forwardSpeed * Time.fixedDeltaTime);
+        IsGrounded();
+        RecordMaxJumpHeight();
+        MonitorMaxSpeed();
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -80,18 +115,18 @@ public class RunnerAgent : Agent
     //Agent Actions: Since it's always running forward without any action, it only moves on the x-axis and jumps (Add force on the y-axis)
     public override void OnActionReceived(ActionBuffers actions)
     {
-          // Handle jump cooldown
+
+        int jump = actions.DiscreteActions[0];
+        var moveX = actions.DiscreteActions[1];
+
+        // Handle jump cooldown
         jumpTimer += Time.deltaTime;
         if (jumpTimer >= jumpCooldown)
         {
             canJump = true;
         }
-        //One continuous action for x-axis movement
-        var moveX = actions.ContinuousActions[0];
-        //One discrete action for jumping
-        int jump = actions.DiscreteActions[0];
 
-        //Jump
+        //Jumping
         if (jump == 1 && isGrounded && canJump)
         {
             Jump();
@@ -104,18 +139,24 @@ public class RunnerAgent : Agent
             AddReward(TrainingManager.Instance.rewardAmounts.jumpWhileNotGrounded);
         }
 
-        transform.Translate(moveX * strafeSpeed * Time.deltaTime, 0, 0);
-
-    }
-
-    void Jump()
-    {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        Debug.Log("AGENT JUMPED");
+        //1D X-Axis movement
+        if (moveX == 1)
+        {
+            movement = 1;
+        }
+        else if (moveX == 2)
+        {
+            movement = -1;
+        }
+        else if (moveX == 0)
+        {
+            movement = 0;
+        }
     }
 
     public override void OnEpisodeBegin()
     {
+        //Reset & Initialize values
         rb.velocity = Vector3.zero;
         coinsGot = 0;
         obstaclesAvoided = 0;
@@ -125,17 +166,54 @@ public class RunnerAgent : Agent
         GetDistanceToNextObstacles();
         GetDistanceToNextReward();
         GetDistanceToGoal();
-        // Debug.Log("<color=yellow>Episode Begin</color>");
         transform.localPosition = trainingEnvironmentManager.agentStartLocalPosition.localPosition;
-
+        // Debug.Log("<color=yellow>Episode Begin</color>");
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        var continuousActionsOut = actionsOut.ContinuousActions;
-        continuousActionsOut[0] = Input.GetAxis("Horizontal");
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = (Input.GetKey(KeyCode.Space) && isGrounded) ? 1 : 0;
+        ActionSegment<int> action = actionsOut.DiscreteActions;
+        action[0] = (Input.GetKey(KeyCode.Space) && isGrounded) ? 1 : 0;
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            action[1] = 2;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            action[1] = 1;
+        }
+        else { action[1] = 0; }
+
+        //For testing purposes in heuristic mode & Demo recorder, allows automatic jumping
+
+        // if (jumpTrigger)
+        // {
+        //     if (isGrounded && canJump)
+        //     {
+        //         action[0] = 1;
+        //     }
+
+        //     jumpTrigger = false;
+        // }
+
+    }
+
+    void Jump()
+    {
+        maxJumpHeight = 0; //For monitoring max jump height
+        if (trainingEnvironmentManager.JumpTrigger)
+        {
+            AddReward(TrainingManager.Instance.rewardAmounts.perfectJumpBonus);
+            Debug.Log("PERFECT JUMP");
+        }
+        else
+        {
+            AddReward(TrainingManager.Instance.rewardAmounts.perfectJumpPenalty);
+        }
+
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        Debug.Log("AGENT JUMPED");
     }
 
     void OnTriggerEnter(Collider other)
@@ -148,8 +226,7 @@ public class RunnerAgent : Agent
             if (CheckIfAllCoinsCollected())
             {
                 AddReward(TrainingManager.Instance.rewardAmounts.perfectRunBonus);
-                //DEBUG LOG PERFECT RUN
-                Debug.Log("<color=green>PERFECT RUN !</color>");
+                Debug.Log("<color=green>PERFECT RUN ! Obstacles cleared:" + obstaclesAvoided + "</color>");
             }
             EndEpisode();
         }
@@ -158,7 +235,6 @@ public class RunnerAgent : Agent
             AddReward(TrainingManager.Instance.rewardAmounts.touchWall);
             trainingEnvironmentManager.episodeFailed.Invoke();
             EndEpisode();
-
         }
 
         if (other.gameObject.CompareTag("Obstacle"))
@@ -176,42 +252,10 @@ public class RunnerAgent : Agent
             UpdateNextReward();
             trainingEnvironmentManager.updateUI?.Invoke();
         }
-
-
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("JumpTrigger"))
         {
-            isGrounded = true;
+            jumpTrigger = true;
         }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
-    }
-
-    public void OnCoinMissed()
-    {
-        AddReward(TrainingManager.Instance.rewardAmounts.missCoin);
-        //Debug log in red
-        Debug.Log("<color=red>Coin Missed</color>");
-        UpdateNextReward();
-    }
-
-    public void OnObstacleAvoided()
-    {
-        AddReward(TrainingManager.Instance.rewardAmounts.avoidObstacle);
-        //Debug log in green
-        Debug.Log("<color=green>Obstacle Avoided</color>");
-        obstaclesAvoided++;
-        UpdateNextObstacles();
-        trainingEnvironmentManager.updateUI?.Invoke();
     }
 
     bool CheckIfAllCoinsCollected()
@@ -222,6 +266,7 @@ public class RunnerAgent : Agent
         }
         return false;
     }
+
     public void InitializeNextObstacles()
     {
         if (trainingEnvironmentManager.obstacleTransforms.Count > 1)
@@ -236,6 +281,7 @@ public class RunnerAgent : Agent
             distanceToNextObstacle = 1000f; // No obstacles
         }
     }
+
     public void UpdateNextObstacles()
     {
         if (nextObstacle == null) return;
@@ -287,6 +333,7 @@ public class RunnerAgent : Agent
             distanceToSecondNextObstacle = 1000f;
         }
     }
+
     public void GetDistanceToNextObstacles() //Must be in front of the agent on the Z axis
     {
         if (nextObstacle != null)
@@ -352,9 +399,6 @@ public class RunnerAgent : Agent
         nextRewardXPosition = 0f;
     }
 
-
-
-
     public void GetDistanceToNextReward()
     {
         if (nextReward != null)
@@ -372,23 +416,75 @@ public class RunnerAgent : Agent
         }
     }
 
-
     public void GetDistanceToGoal()
     {
         distanceToGoal = Vector3.Distance(new Vector3(0, 0, transform.localPosition.z + 0.5f), new Vector3(0, 0, trainingEnvironmentManager.goalLocalZPosition - 0.5f));
     }
 
-
-
-
-
     void IsGrounded()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 0.6f);
-        //Set Y pos to 0
-        if (isGrounded && transform.position.y != 0)
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 0.6f, LayerMask.GetMask("Ground"));
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            // transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+            isGrounded = true;
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+
+    public void OnCoinMissed()
+    {
+        AddReward(TrainingManager.Instance.rewardAmounts.missCoin);
+        //Debug log in red
+        Debug.Log("<color=red>Coin Missed</color>");
+        UpdateNextReward();
+    }
+
+    public void OnObstacleAvoided()
+    {
+        AddReward(TrainingManager.Instance.rewardAmounts.avoidObstacle);
+        //Debug log in green
+        Debug.Log("<color=green>Obstacle Avoided</color>");
+        obstaclesAvoided++;
+        UpdateNextObstacles();
+        trainingEnvironmentManager.updateUI?.Invoke();
+    }
+
+    public void RecordMaxJumpHeight()
+    {
+        if (transform.position.y > maxJumpHeight)
+        {
+            maxJumpHeight = transform.position.y;
+        }
+    }
+
+    public void MonitorMaxSpeed()
+    {
+        // Accumulate time each frame
+        timeElapsed += Time.fixedDeltaTime;
+
+        // Check if one second has passed
+        if (timeElapsed >= 1f)
+        {
+            // Calculate the distance traveled in the last second
+            float distanceTraveled = Vector3.Distance(lastPosition, transform.position);
+
+            // Update the public agentSpeed variable
+            agentSpeed = distanceTraveled / timeElapsed;
+
+            // Reset timer and update last position
+            timeElapsed = 0f;
+            lastPosition = transform.position;
         }
     }
 

@@ -9,11 +9,12 @@ TagManager:
   - Reward
   - Obstacle
   - Ground
+  - JumpTrigger
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 

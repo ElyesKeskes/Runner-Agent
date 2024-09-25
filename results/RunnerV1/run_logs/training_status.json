@@ -2,31 +2,49 @@
     "RunnerV1": {
         "checkpoints": [
             {
-                "steps": 69580,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-69580.onnx",
-                "reward": -0.7019999921321869,
-                "creation_time": 1727209267.7562833,
+                "steps": 113501,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-113501.onnx",
+                "reward": -1.0,
+                "creation_time": 1727282375.5157022,
                 "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-69580.pt"
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-113501.pt"
                 ]
             },
             {
-                "steps": 207550,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-207550.onnx",
-                "reward": -0.6612599968910218,
-                "creation_time": 1727210800.462343,
+                "steps": 119843,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-119843.onnx",
+                "reward": -0.800000011920929,
+                "creation_time": 1727282571.3000548,
                 "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-207550.pt"
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-119843.pt"
+                ]
+            },
+            {
+                "steps": 123186,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-123186.onnx",
+                "reward": -0.8000000044703484,
+                "creation_time": 1727282764.3926528,
+                "auxillary_file_paths": [
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-123186.pt"
+                ]
+            },
+            {
+                "steps": 139783,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-139783.onnx",
+                "reward": 2.5000000099341073,
+                "creation_time": 1727283894.172469,
+                "auxillary_file_paths": [
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-139783.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 207550,
+            "steps": 139783,
             "file_path": "results\\RunnerV1\\RunnerV1.onnx",
-            "reward": -0.6612599968910218,
-            "creation_time": 1727210800.462343,
+            "reward": 2.5000000099341073,
+            "creation_time": 1727283894.172469,
             "auxillary_file_paths": [
-                "results\\RunnerV1\\RunnerV1\\RunnerV1-207550.pt"
+                "results\\RunnerV1\\RunnerV1\\RunnerV1-139783.pt"
             ]
         }
     },

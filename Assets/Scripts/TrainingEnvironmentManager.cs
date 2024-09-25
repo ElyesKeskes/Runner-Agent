@@ -31,6 +31,7 @@ public class TrainingEnvironmentManager : MonoBehaviour
     public TextMeshProUGUI coinsText;
     public int activeObstacles = 0;
     public int activeCoins = 0;
+    public bool JumpTrigger = false;
     public void UpdateUI()
     {
         //Formatted as "X/Total" where X is the number of obstacles avoided or coins collected
