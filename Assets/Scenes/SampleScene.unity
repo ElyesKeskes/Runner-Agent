@@ -1006,15 +1006,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardAmounts:
     avoidObstacle: 0.3
-    touchObstacle: -1
-    touchCoin: 0.3
-    missCoin: -0.3
-    touchGoal: 1
+    touchObstacle: -1.2
+    touchCoin: 0.1
+    missCoin: 0
+    touchGoal: 2
     touchWall: -1
-    jumpWhileNotGrounded: -0.01
-    perfectRunBonus: 0.5
-    perfectJumpBonus: 0.1
-    perfectJumpPenalty: -0.1
+    jumpWhileNotGrounded: 0
+    perfectRunBonus: 1
+    perfectJumpBonus: 0
+    perfectJumpPenalty: 0
   _timeScale: 1
 --- !u!4 &986062883
 Transform:
@@ -1440,13 +1440,19 @@ PrefabInstance:
       propertyPath: m_BehaviorType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7462006447307726403, guid: 81091ba2022035b4cbce9fc3d0c9e634,
+        type: 3}
+      propertyPath: m_InferenceDevice
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7614918040853639331, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 46.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3688860264155671238, guid: 81091ba2022035b4cbce9fc3d0c9e634, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4059456256690192402, guid: 81091ba2022035b4cbce9fc3d0c9e634,
         type: 3}

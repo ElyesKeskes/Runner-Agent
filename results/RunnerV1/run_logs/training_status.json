@@ -2,31 +2,22 @@
     "RunnerV1": {
         "checkpoints": [
             {
-                "steps": 28498,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-28498.onnx",
-                "reward": null,
-                "creation_time": 1727292205.6889424,
+                "steps": 200022,
+                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-200022.onnx",
+                "reward": -0.9857143206255776,
+                "creation_time": 1727302980.2580085,
                 "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-28498.pt"
-                ]
-            },
-            {
-                "steps": 100018,
-                "file_path": "results\\RunnerV1\\RunnerV1\\RunnerV1-100018.onnx",
-                "reward": -1.054545440457084,
-                "creation_time": 1727293681.9953547,
-                "auxillary_file_paths": [
-                    "results\\RunnerV1\\RunnerV1\\RunnerV1-100018.pt"
+                    "results\\RunnerV1\\RunnerV1\\RunnerV1-200022.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 100018,
+            "steps": 200022,
             "file_path": "results\\RunnerV1\\RunnerV1.onnx",
-            "reward": -1.054545440457084,
-            "creation_time": 1727293681.9953547,
+            "reward": -0.9857143206255776,
+            "creation_time": 1727302980.2580085,
             "auxillary_file_paths": [
-                "results\\RunnerV1\\RunnerV1\\RunnerV1-100018.pt"
+                "results\\RunnerV1\\RunnerV1\\RunnerV1-200022.pt"
             ]
         }
     },

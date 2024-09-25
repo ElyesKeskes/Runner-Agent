@@ -26,9 +26,9 @@ behaviors:
     behavioral_cloning:
       strength: 0.5
       demo_path: Demos/RunnerdemoBOTTED.demo
-    max_steps: 100000
+    max_steps: 400000
     time_horizon: 64
-    summary_freq: 20000
+    summary_freq: 10000
     
 
 
