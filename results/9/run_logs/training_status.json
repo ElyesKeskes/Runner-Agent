@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
     "RunnerV1": {
         "checkpoints": [
             {
@@ -8,16 +9,36 @@
                 "creation_time": 1727219734.2180374,
                 "auxillary_file_paths": [
                     "results\\9\\RunnerV1\\RunnerV1-276849.pt"
+=======
+    "MoveScript": {
+        "checkpoints": [
+            {
+                "steps": 0,
+                "file_path": "results\\9\\MoveScript\\MoveScript-0.onnx",
+                "reward": null,
+                "creation_time": 1727305205.3048754,
+                "auxillary_file_paths": [
+                    "results\\9\\MoveScript\\MoveScript-0.pt"
+>>>>>>> Stashed changes
                 ]
             }
         ],
         "final_checkpoint": {
+<<<<<<< Updated upstream
             "steps": 276849,
             "file_path": "results\\9\\RunnerV1.onnx",
             "reward": -0.800000011920929,
             "creation_time": 1727219734.2180374,
             "auxillary_file_paths": [
                 "results\\9\\RunnerV1\\RunnerV1-276849.pt"
+=======
+            "steps": 0,
+            "file_path": "results\\9\\MoveScript.onnx",
+            "reward": null,
+            "creation_time": 1727305205.3048754,
+            "auxillary_file_paths": [
+                "results\\9\\MoveScript\\MoveScript-0.pt"
+>>>>>>> Stashed changes
             ]
         }
     },

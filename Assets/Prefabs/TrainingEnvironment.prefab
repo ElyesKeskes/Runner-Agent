@@ -1975,6 +1975,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6302432863816618522, guid: 0255996d698f41741b27e90d909f03e2,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 7.426
+      objectReference: {fileID: 0}
+    - target: {fileID: 6302432863816618522, guid: 0255996d698f41741b27e90d909f03e2,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2141,11 +2146,14 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BehaviorType
       value: 0
+<<<<<<< Updated upstream
       objectReference: {fileID: 0}
     - target: {fileID: 5813553937898310672, guid: 57f79353cd2f23d41b8d568cce363e1f,
         type: 3}
       propertyPath: m_InferenceDevice
       value: 1
+=======
+>>>>>>> Stashed changes
       objectReference: {fileID: 0}
     - target: {fileID: 5813553937898310672, guid: 57f79353cd2f23d41b8d568cce363e1f,
         type: 3}
@@ -2185,7 +2193,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7266959926116641567, guid: 57f79353cd2f23d41b8d568cce363e1f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 256047335626991773}
   m_SourcePrefab: {fileID: 100100000, guid: 57f79353cd2f23d41b8d568cce363e1f, type: 3}
 --- !u!4 &551905522581520961 stripped
 Transform:
@@ -2199,12 +2211,13 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3973225821190165075}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6051384724203338060}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6106084a7666ba145a865b72175fbc82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
 --- !u!54 &6473366806279553133 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 7995506742893613630, guid: 57f79353cd2f23d41b8d568cce363e1f,
@@ -2212,6 +2225,44 @@ Rigidbody:
   m_PrefabInstance: {fileID: 3973225821190165075}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4426271095870671907
+=======
+--- !u!1 &6051384724203338060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7266959926116641567, guid: 57f79353cd2f23d41b8d568cce363e1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973225821190165075}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &256047335626991773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051384724203338060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: RayPerceptionSensor
+  m_DetectableTags:
+  - Obstacle
+  - Reward
+  - Wall
+  m_RaysPerDirection: 3
+  m_MaxRayDegrees: 70
+  m_SphereCastRadius: 0.5
+  m_RayLength: 20
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967291
+  m_ObservationStacks: 1
+  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+  m_StartVerticalOffset: 0
+  m_EndVerticalOffset: 0
+--- !u!1001 &4529252129520673465
+>>>>>>> Stashed changes
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2232,7 +2283,7 @@ PrefabInstance:
     - target: {fileID: 6302432863816618522, guid: 0255996d698f41741b27e90d909f03e2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 9.89
       objectReference: {fileID: 0}
     - target: {fileID: 6302432863816618522, guid: 0255996d698f41741b27e90d909f03e2,
         type: 3}
@@ -2306,7 +2357,7 @@ PrefabInstance:
     - target: {fileID: 6302432863816618522, guid: 0255996d698f41741b27e90d909f03e2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -9.87
       objectReference: {fileID: 0}
     - target: {fileID: 6302432863816618522, guid: 0255996d698f41741b27e90d909f03e2,
         type: 3}

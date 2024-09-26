@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
     "RunnerV1": {
         "checkpoints": [
             {
@@ -8,16 +9,45 @@
                 "creation_time": 1727218713.0606885,
                 "auxillary_file_paths": [
                     "results\\7\\RunnerV1\\RunnerV1-57198.pt"
+=======
+    "MoveScript": {
+        "checkpoints": [
+            {
+                "steps": 499995,
+                "file_path": "results\\7\\MoveScript\\MoveScript-499995.onnx",
+                "reward": 154.36947350782393,
+                "creation_time": 1727303868.542142,
+                "auxillary_file_paths": [
+                    "results\\7\\MoveScript\\MoveScript-499995.pt"
+                ]
+            },
+            {
+                "steps": 921854,
+                "file_path": "results\\7\\MoveScript\\MoveScript-921854.onnx",
+                "reward": 425.85694975485757,
+                "creation_time": 1727304110.5214684,
+                "auxillary_file_paths": [
+                    "results\\7\\MoveScript\\MoveScript-921854.pt"
+>>>>>>> Stashed changes
                 ]
             }
         ],
         "final_checkpoint": {
+<<<<<<< Updated upstream
             "steps": 57198,
             "file_path": "results\\7\\RunnerV1.onnx",
             "reward": -1.0,
             "creation_time": 1727218713.0606885,
             "auxillary_file_paths": [
                 "results\\7\\RunnerV1\\RunnerV1-57198.pt"
+=======
+            "steps": 921854,
+            "file_path": "results\\7\\MoveScript.onnx",
+            "reward": 425.85694975485757,
+            "creation_time": 1727304110.5214684,
+            "auxillary_file_paths": [
+                "results\\7\\MoveScript\\MoveScript-921854.pt"
+>>>>>>> Stashed changes
             ]
         }
     },

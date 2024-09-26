@@ -1,0 +1,65 @@
+{
+    "MoveScript": {
+        "checkpoints": [
+            {
+                "steps": 5587732,
+                "file_path": "results\\17\\MoveScript\\MoveScript-5587732.onnx",
+                "reward": null,
+                "creation_time": 1727315839.9872248,
+                "auxillary_file_paths": [
+                    "results\\17\\MoveScript\\MoveScript-5587732.pt"
+                ]
+            },
+            {
+                "steps": 5999960,
+                "file_path": "results\\17\\MoveScript\\MoveScript-5999960.onnx",
+                "reward": null,
+                "creation_time": 1727316290.051612,
+                "auxillary_file_paths": [
+                    "results\\17\\MoveScript\\MoveScript-5999960.pt"
+                ]
+            },
+            {
+                "steps": 6499967,
+                "file_path": "results\\17\\MoveScript\\MoveScript-6499967.onnx",
+                "reward": null,
+                "creation_time": 1727316607.3786917,
+                "auxillary_file_paths": [
+                    "results\\17\\MoveScript\\MoveScript-6499967.pt"
+                ]
+            },
+            {
+                "steps": 6542045,
+                "file_path": "results\\17\\MoveScript\\MoveScript-6542045.onnx",
+                "reward": null,
+                "creation_time": 1727316627.558539,
+                "auxillary_file_paths": [
+                    "results\\17\\MoveScript\\MoveScript-6542045.pt"
+                ]
+            },
+            {
+                "steps": 6868673,
+                "file_path": "results\\17\\MoveScript\\MoveScript-6868673.onnx",
+                "reward": -45.26173783838749,
+                "creation_time": 1727316817.1408517,
+                "auxillary_file_paths": [
+                    "results\\17\\MoveScript\\MoveScript-6868673.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 6868673,
+            "file_path": "results\\17\\MoveScript.onnx",
+            "reward": -45.26173783838749,
+            "creation_time": 1727316817.1408517,
+            "auxillary_file_paths": [
+                "results\\17\\MoveScript\\MoveScript-6868673.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

@@ -1,0 +1,56 @@
+{
+    "MoveScript": {
+        "checkpoints": [
+            {
+                "steps": 499954,
+                "file_path": "results\\8\\MoveScript\\MoveScript-499954.onnx",
+                "reward": -4.128984315670095,
+                "creation_time": 1727304399.23509,
+                "auxillary_file_paths": [
+                    "results\\8\\MoveScript\\MoveScript-499954.pt"
+                ]
+            },
+            {
+                "steps": 999997,
+                "file_path": "results\\8\\MoveScript\\MoveScript-999997.onnx",
+                "reward": 6.975355658046384,
+                "creation_time": 1727304685.106222,
+                "auxillary_file_paths": [
+                    "results\\8\\MoveScript\\MoveScript-999997.pt"
+                ]
+            },
+            {
+                "steps": 1255677,
+                "file_path": "results\\8\\MoveScript\\MoveScript-1255677.onnx",
+                "reward": -4.115599775065978,
+                "creation_time": 1727304892.2416234,
+                "auxillary_file_paths": [
+                    "results\\8\\MoveScript\\MoveScript-1255677.pt"
+                ]
+            },
+            {
+                "steps": 1305643,
+                "file_path": "results\\8\\MoveScript\\MoveScript-1305643.onnx",
+                "reward": null,
+                "creation_time": 1727305171.9793885,
+                "auxillary_file_paths": [
+                    "results\\8\\MoveScript\\MoveScript-1305643.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1305643,
+            "file_path": "results\\8\\MoveScript.onnx",
+            "reward": null,
+            "creation_time": 1727305171.9793885,
+            "auxillary_file_paths": [
+                "results\\8\\MoveScript\\MoveScript-1305643.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

@@ -2,14 +2,21 @@
     "name": "root",
     "metadata": {
         "timer_format_version": "0.1.0",
+<<<<<<< Updated upstream
         "start_time_seconds": "1727218555",
         "python_version": "3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]",
         "command_line_arguments": "C:\\Users\\keske\\OneDrive\\Bureau\\TestMLagent\\venv\\Scripts\\mlagents-learn config\\trainer_config.yaml --run-id=5 --train --no-graphics",
+=======
+        "start_time_seconds": "1727302662",
+        "python_version": "3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\keske\\OneDrive\\Bureau\\unity-machinelearning-miniproject\\venv\\Scripts\\mlagents-learn config\\trainer_config.yaml --run-id=5 --train",
+>>>>>>> Stashed changes
         "mlagents_version": "0.30.0",
         "mlagents_envs_version": "0.30.0",
         "communication_protocol_version": "1.5.0",
         "pytorch_version": "2.4.1+cpu",
         "numpy_version": "1.21.2",
+<<<<<<< Updated upstream
         "end_time_seconds": "1727218560"
     },
     "total": 5.3727868999999995,
@@ -82,6 +89,33 @@
                             "self": 0.00118619999999936
                         }
                     }
+=======
+        "end_time_seconds": "1727302667"
+    },
+    "total": 4.900564299999999,
+    "count": 1,
+    "self": 0.00450569999999928,
+    "children": {
+        "run_training.setup": {
+            "total": 0.08336779999999999,
+            "count": 1,
+            "self": 0.08336779999999999
+        },
+        "TrainerController.start_learning": {
+            "total": 4.8126908,
+            "count": 1,
+            "self": 5.77000000001604e-05,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 4.8126197,
+                    "count": 1,
+                    "self": 4.8126197
+                },
+                "TrainerController._save_models": {
+                    "total": 1.3400000000274304e-05,
+                    "count": 1,
+                    "self": 1.3400000000274304e-05
+>>>>>>> Stashed changes
                 }
             }
         }

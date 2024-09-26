@@ -9,6 +9,12 @@ TagManager:
   - Reward
   - Obstacle
   - Ground
+<<<<<<< Updated upstream
+=======
+  - JumpTrigger
+  - ObsTrig
+  - Coin
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX

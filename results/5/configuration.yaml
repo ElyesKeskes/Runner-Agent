@@ -3,8 +3,13 @@ behaviors:
   RunnerV1:
     trainer_type: ppo
     hyperparameters:
+<<<<<<< Updated upstream
       batch_size: 2048
       buffer_size: 1024
+=======
+      batch_size: 512
+      buffer_size: 10240
+>>>>>>> Stashed changes
       learning_rate: 0.0003
       beta: 0.0005
       epsilon: 0.2
@@ -49,17 +54,29 @@ behaviors:
         encoding_size: null
         use_actions: false
         use_vail: false
+<<<<<<< Updated upstream
         demo_path: Demos/Runnerdemo.demo
     init_path: null
     keep_checkpoints: 5
     checkpoint_interval: 500000
     max_steps: 50000000000
+=======
+        demo_path: Demos/Demo1.demo
+    init_path: null
+    keep_checkpoints: 5
+    checkpoint_interval: 500000
+    max_steps: 500000
+>>>>>>> Stashed changes
     time_horizon: 64
     summary_freq: 20000
     threaded: false
     self_play: null
     behavioral_cloning:
+<<<<<<< Updated upstream
       demo_path: Demos/Runnerdemo.demo
+=======
+      demo_path: Demos/Demo1.demo
+>>>>>>> Stashed changes
       steps: 0
       strength: 0.5
       samples_per_update: 0
@@ -82,7 +99,11 @@ engine_settings:
   time_scale: 20
   target_frame_rate: -1
   capture_frame_rate: 60
+<<<<<<< Updated upstream
   no_graphics: true
+=======
+  no_graphics: false
+>>>>>>> Stashed changes
 environment_parameters: null
 checkpoint_settings:
   run_id: '5'

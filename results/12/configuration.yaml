@@ -1,10 +1,18 @@
 default_settings: null
 behaviors:
+<<<<<<< Updated upstream
   RunnerV1:
     trainer_type: ppo
     hyperparameters:
       batch_size: 512
       buffer_size: 20480
+=======
+  MoveScript:
+    trainer_type: ppo
+    hyperparameters:
+      batch_size: 512
+      buffer_size: 10240
+>>>>>>> Stashed changes
       learning_rate: 0.0003
       beta: 0.0005
       epsilon: 0.2
@@ -36,7 +44,11 @@ behaviors:
           deterministic: false
       gail:
         gamma: 0.99
+<<<<<<< Updated upstream
         strength: 0.5
+=======
+        strength: 5.0
+>>>>>>> Stashed changes
         network_settings:
           normalize: false
           hidden_units: 128
@@ -49,17 +61,29 @@ behaviors:
         encoding_size: null
         use_actions: false
         use_vail: false
+<<<<<<< Updated upstream
         demo_path: Demos/Runnerdemo3.demo
     init_path: null
     keep_checkpoints: 5
     checkpoint_interval: 500000
     max_steps: 50000000000
+=======
+        demo_path: Demos/Runnerdemo.demo
+    init_path: null
+    keep_checkpoints: 5
+    checkpoint_interval: 500000
+    max_steps: 5000000000000000
+>>>>>>> Stashed changes
     time_horizon: 64
     summary_freq: 20000
     threaded: false
     self_play: null
     behavioral_cloning:
+<<<<<<< Updated upstream
       demo_path: Demos/Runnerdemo3.demo
+=======
+      demo_path: Demos/Runnerdemo.demo
+>>>>>>> Stashed changes
       steps: 0
       strength: 0.5
       samples_per_update: 0

@@ -1,5 +1,6 @@
 {
     "name": "root",
+<<<<<<< Updated upstream
     "gauges": {
         "RunnerV1.Policy.Entropy.mean": {
             "value": -6.368570327758789,
@@ -127,11 +128,19 @@
         "start_time_seconds": "1727215800",
         "python_version": "3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]",
         "command_line_arguments": "C:\\Users\\keske\\OneDrive\\Bureau\\TestMLagent\\venv\\Scripts\\mlagents-learn config\\trainer_config.yaml --run-id=1 --train --resume --no-graphics",
+=======
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1727300230",
+        "python_version": "3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\keske\\OneDrive\\Bureau\\unity-machinelearning-miniproject\\venv\\Scripts\\mlagents-learn --run-id=1",
+>>>>>>> Stashed changes
         "mlagents_version": "0.30.0",
         "mlagents_envs_version": "0.30.0",
         "communication_protocol_version": "1.5.0",
         "pytorch_version": "2.4.1+cpu",
         "numpy_version": "1.21.2",
+<<<<<<< Updated upstream
         "end_time_seconds": "1727215903"
     },
     "total": 103.75556259999999,
@@ -212,10 +221,53 @@
                                             "total": 1.5095337999999927,
                                             "count": 2145,
                                             "self": 1.5095337999999927
+=======
+        "end_time_seconds": "1727300275"
+    },
+    "total": 44.6617057,
+    "count": 1,
+    "self": 0.004371700000000089,
+    "children": {
+        "run_training.setup": {
+            "total": 0.08683709999999989,
+            "count": 1,
+            "self": 0.08683709999999989
+        },
+        "TrainerController.start_learning": {
+            "total": 44.5704969,
+            "count": 1,
+            "self": 0.015735100000007662,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 7.337653100000001,
+                    "count": 1,
+                    "self": 7.337653100000001
+                },
+                "TrainerController.advance": {
+                    "total": 37.07299869999999,
+                    "count": 1823,
+                    "self": 0.013871100000002912,
+                    "children": {
+                        "env_step": {
+                            "total": 36.970406000000025,
+                            "count": 1823,
+                            "self": 35.88737060000008,
+                            "children": {
+                                "SubprocessEnvManager._take_step": {
+                                    "total": 1.0731470999999413,
+                                    "count": 1823,
+                                    "self": 0.041156699999966406,
+                                    "children": {
+                                        "TorchPolicy.evaluate": {
+                                            "total": 1.0319903999999749,
+                                            "count": 1823,
+                                            "self": 1.0319903999999749
+>>>>>>> Stashed changes
                                         }
                                     }
                                 },
                                 "workers": {
+<<<<<<< Updated upstream
                                     "total": 0.019543900000289938,
                                     "count": 2408,
                                     "self": 0.0,
@@ -237,10 +289,34 @@
                                                             "count": 2,
                                                             "is_parallel": true,
                                                             "self": 0.00016389999999866234
+=======
+                                    "total": 0.009888300000001848,
+                                    "count": 1822,
+                                    "self": 0.0,
+                                    "children": {
+                                        "worker_root": {
+                                            "total": 7.334239500000041,
+                                            "count": 1822,
+                                            "is_parallel": true,
+                                            "self": 2.771255900000072,
+                                            "children": {
+                                                "steps_from_proto": {
+                                                    "total": 0.0023059999999999192,
+                                                    "count": 1,
+                                                    "is_parallel": true,
+                                                    "self": 0.00031529999999957425,
+                                                    "children": {
+                                                        "_process_rank_one_or_two_observation": {
+                                                            "total": 0.001990700000000345,
+                                                            "count": 4,
+                                                            "is_parallel": true,
+                                                            "self": 0.001990700000000345
+>>>>>>> Stashed changes
                                                         }
                                                     }
                                                 },
                                                 "UnityEnvironment.step": {
+<<<<<<< Updated upstream
                                                     "total": 10.533158199999932,
                                                     "count": 2408,
                                                     "is_parallel": true,
@@ -269,6 +345,36 @@
                                                                     "count": 4816,
                                                                     "is_parallel": true,
                                                                     "self": 0.2908752999998008
+=======
+                                                    "total": 4.560677599999969,
+                                                    "count": 1822,
+                                                    "is_parallel": true,
+                                                    "self": 0.06689960000001527,
+                                                    "children": {
+                                                        "UnityEnvironment._generate_step_input": {
+                                                            "total": 0.052595199999969644,
+                                                            "count": 1822,
+                                                            "is_parallel": true,
+                                                            "self": 0.052595199999969644
+                                                        },
+                                                        "communicator.exchange": {
+                                                            "total": 4.196652899999989,
+                                                            "count": 1822,
+                                                            "is_parallel": true,
+                                                            "self": 4.196652899999989
+                                                        },
+                                                        "steps_from_proto": {
+                                                            "total": 0.24452989999999541,
+                                                            "count": 1822,
+                                                            "is_parallel": true,
+                                                            "self": 0.1237405999999659,
+                                                            "children": {
+                                                                "_process_rank_one_or_two_observation": {
+                                                                    "total": 0.12078930000002952,
+                                                                    "count": 7288,
+                                                                    "is_parallel": true,
+                                                                    "self": 0.12078930000002952
+>>>>>>> Stashed changes
                                                                 }
                                                             }
                                                         }
@@ -281,6 +387,7 @@
                             }
                         },
                         "trainer_advance": {
+<<<<<<< Updated upstream
                             "total": 9.968174499999702,
                             "count": 2408,
                             "self": 0.060569799999750984,
@@ -294,11 +401,22 @@
                                     "total": 8.27196829999999,
                                     "count": 32,
                                     "self": 8.27196829999999
+=======
+                            "total": 0.08872159999996398,
+                            "count": 1822,
+                            "self": 0.018223700000000065,
+                            "children": {
+                                "process_trajectory": {
+                                    "total": 0.07049789999996392,
+                                    "count": 1822,
+                                    "self": 0.07049789999996392
+>>>>>>> Stashed changes
                                 }
                             }
                         }
                     }
                 },
+<<<<<<< Updated upstream
                 "TrainerController._save_models": {
                     "total": 0.06045879999999215,
                     "count": 1,
@@ -308,6 +426,22 @@
                             "total": 0.054947600000005536,
                             "count": 1,
                             "self": 0.054947600000005536
+=======
+                "trainer_threads": {
+                    "total": 5.999999999062311e-07,
+                    "count": 1,
+                    "self": 5.999999999062311e-07
+                },
+                "TrainerController._save_models": {
+                    "total": 0.14410939999999783,
+                    "count": 1,
+                    "self": 2.5499999999567535e-05,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 0.14408389999999827,
+                            "count": 1,
+                            "self": 0.14408389999999827
+>>>>>>> Stashed changes
                         }
                     }
                 }

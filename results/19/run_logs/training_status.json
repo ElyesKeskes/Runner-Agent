@@ -1,0 +1,29 @@
+{
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.4.1+cpu"
+    },
+    "MoveScript": {
+        "checkpoints": [
+            {
+                "steps": 0,
+                "file_path": "results\\19\\MoveScript\\MoveScript-0.onnx",
+                "reward": null,
+                "creation_time": 1727317052.2787817,
+                "auxillary_file_paths": [
+                    "results\\19\\MoveScript\\MoveScript-0.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 0,
+            "file_path": "results\\19\\MoveScript.onnx",
+            "reward": null,
+            "creation_time": 1727317052.2787817,
+            "auxillary_file_paths": [
+                "results\\19\\MoveScript\\MoveScript-0.pt"
+            ]
+        }
+    }
+}

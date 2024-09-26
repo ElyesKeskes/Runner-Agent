@@ -1,5 +1,6 @@
 {
     "name": "root",
+<<<<<<< Updated upstream
     "gauges": {
         "RunnerV1.Policy.Entropy.mean": {
             "value": 0.1406797617673874,
@@ -235,11 +236,19 @@
         "start_time_seconds": "1727219935",
         "python_version": "3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]",
         "command_line_arguments": "C:\\Users\\keske\\OneDrive\\Bureau\\TestMLagent\\venv\\Scripts\\mlagents-learn config\\trainer_config.yaml --run-id=11 --train --no-graphics",
+=======
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1727306431",
+        "python_version": "3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\keske\\OneDrive\\Bureau\\unity-machinelearning-miniproject\\venv\\Scripts\\mlagents-learn config\\trainer_config.yaml --run-id=11 --train",
+>>>>>>> Stashed changes
         "mlagents_version": "0.30.0",
         "mlagents_envs_version": "0.30.0",
         "communication_protocol_version": "1.5.0",
         "pytorch_version": "2.4.1+cpu",
         "numpy_version": "1.21.2",
+<<<<<<< Updated upstream
         "end_time_seconds": "1727220523"
     },
     "total": 587.8189341,
@@ -416,12 +425,45 @@
                                             "self": 31.174067800000124
                                         }
                                     }
+=======
+        "end_time_seconds": "1727306438"
+    },
+    "total": 6.9601726,
+    "count": 1,
+    "self": 0.0038369999999998683,
+    "children": {
+        "run_training.setup": {
+            "total": 0.08838659999999998,
+            "count": 1,
+            "self": 0.08838659999999998
+        },
+        "TrainerController.start_learning": {
+            "total": 6.867949,
+            "count": 1,
+            "self": 0.00010750000000125937,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 6.866885,
+                    "count": 1,
+                    "self": 6.866833700000001,
+                    "children": {
+                        "demo_to_buffer": {
+                            "total": 5.1299999999088186e-05,
+                            "count": 1,
+                            "self": 7.899999998173257e-06,
+                            "children": {
+                                "load_demonstration": {
+                                    "total": 4.340000000091493e-05,
+                                    "count": 1,
+                                    "self": 4.340000000091493e-05
+>>>>>>> Stashed changes
                                 }
                             }
                         }
                     }
                 },
                 "TrainerController._save_models": {
+<<<<<<< Updated upstream
                     "total": 0.031430699999987155,
                     "count": 1,
                     "self": 0.005901199999925666,
@@ -430,6 +472,16 @@
                             "total": 0.02552950000006149,
                             "count": 1,
                             "self": 0.02552950000006149
+=======
+                    "total": 0.0009564999999991386,
+                    "count": 1,
+                    "self": 8.989999999897691e-05,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 0.0008666000000001617,
+                            "count": 1,
+                            "self": 0.0008666000000001617
+>>>>>>> Stashed changes
                         }
                     }
                 }
