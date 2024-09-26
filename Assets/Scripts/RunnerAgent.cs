@@ -104,7 +104,7 @@ public class RunnerAgent : Agent
         agentXPositionRatio = transform.localPosition.x / trainingEnvironmentManager.pathWidth;
 
         sensor.AddObservation(distanceToNextObstacle);
-        sensor.AddObservation(distanceToSecondNextObstacle);
+        // sensor.AddObservation(distanceToSecondNextObstacle);
         sensor.AddObservation(distanceToNextReward);
         sensor.AddObservation(nextRewardXPosition);
         sensor.AddObservation(agentXPositionRatio);
@@ -257,6 +257,7 @@ public class RunnerAgent : Agent
                 AddReward(TrainingManager.Instance.rewardAmounts.perfectRunBonus);
                 Debug.Log("<color=green>PERFECT RUN ! Obstacles cleared:" + obstaclesAvoided + "</color>");
             }
+            Debug.Log("<color=green>FINISH LINE CROSSED</color>");
             EndEpisode();
         }
         if (other.gameObject.CompareTag("Wall")) //Walls on the sides of the path
